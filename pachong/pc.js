@@ -37,10 +37,10 @@ function startRequest(res){
         }
         for(let i=author.length-1;i>=0;i--){
             let url = null;
-            if($('a.j_th_tit').eq(i).attr('href').split('://').length == 1){
+            if($('a.j_th_tit').eq(i).attr('href').split('://').length == 2){
                 url = $('a.j_th_tit').eq(i).attr('href')
             }else{
-                url = 'https://tieba.baidu.com' + $('a.j_th_tit').eq(i).attr('href').split('://')[1]
+                url = 'https://tieba.baidu.com' + $('a.j_th_tit').eq(i).attr('href')
             }
             msg = i+'.'+author[i].trim() + '  发表了  ' + $('a.j_th_tit ').eq(i).text().trim() + '  链接：'  +  url;
             allMsg = msg + '\r\n' + allMsg ;

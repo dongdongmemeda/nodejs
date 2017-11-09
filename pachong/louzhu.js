@@ -39,7 +39,7 @@ function startRequest(url,res){
             tieziName = t[1] + '  ' + author + '  ' + tiebaName;
         }
         allMsg = '标题：'+tieziName
-    let sayContent = $('cc div.j_d_post_content').text().trim().split("            "), txtNum = 1;  // 12空格
+    let sayContent = $('div.j_d_post_content').text().trim().split("            "), txtNum = 1;  // 12空格
     for(let i=sayContent.length-1;i>=0;i--){
         const sayPeople = $('li.d_name a.j_user_card ').eq(i).text().trim(),
             msg = '    '+sayContent[i-1];
