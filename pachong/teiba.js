@@ -38,7 +38,7 @@ async function startRequest (url, res){
         }else{
             tieziName = t[1] + '  ' + author + '  ' + tiebaName;
         }
-        allMsg = '标题：' + tieziName
+        allMsg = '标题：' + tieziName;
     let sayContent = $('cc div.j_d_post_content').text().trim().split("            "), txtNum = 1;  // 12空格
     for(let i=1;i<sayContent.length+1;i++){
         const sayPeople = $('li.d_name a.j_user_card ').eq(i-1).text().trim(), 
@@ -47,11 +47,13 @@ async function startRequest (url, res){
         txtNum ++;
     }
 
-    const txtdir = './tieba/', imgdir = './tieba_image/',
+    const txtdir = './data/all/' , imgdir = './image/'+tieziName+'/',
         currdir = tieziName.replace(/\//g, 'i').replace(/\\/g, 'i').replace(/:/g, 'i').replace(/\*/g, 'i')
          .replace(/\?/g, 'i').replace(/</g, 'i').replace(/>/g, 'i').replace(/"/g, 'i').replace(/\|/g, 'i'),
-         imgDir = imgdir + currdir + '/', txt = currdir + '.txt';
+         imgDir = imgdir + currdir + '/', 
+         txt = currdir + '.txt';
     let imgNum = 0;
+    console.log(txt)
 
     tool.dir(txtdir)
     tool.dir(imgdir)

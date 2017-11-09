@@ -48,11 +48,13 @@ function startRequest(url,res){
         txtNum ++;
     }
     
-    const txtdir = './tieba/', imgdir = './tieba_image/',
-    currdir = tieziName.replace(/\//g, 'i').replace(/\\/g, 'i').replace(/:/g, 'i').replace(/\*/g, 'i')
-     .replace(/\?/g, 'i').replace(/</g, 'i').replace(/>/g, 'i').replace(/"/g, 'i').replace(/\|/g, 'i'),
-     imgDir = imgdir + currdir + '/', txt = currdir + '.txt';
+    const txtdir = './data/only/' , imgdir = './image/'+tieziName+'/',
+        currdir = tieziName.replace(/\//g, 'i').replace(/\\/g, 'i').replace(/:/g, 'i').replace(/\*/g, 'i')
+        .replace(/\?/g, 'i').replace(/</g, 'i').replace(/>/g, 'i').replace(/"/g, 'i').replace(/\|/g, 'i'),
+        imgDir = imgdir + currdir + '/', 
+        txt = currdir + '.txt';
     let imgNum = 0;
+console.log(txt)
 
     tool.dir(txtdir)
     tool.dir(imgdir)
