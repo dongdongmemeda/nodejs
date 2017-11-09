@@ -54,7 +54,6 @@ function startRequest(url,res){
         imgDir = imgdir + currdir + '/', 
         txt = currdir + '.txt';
     let imgNum = 0;
-console.log(txt)
 
     tool.dir(txtdir)
     tool.dir(imgdir)

@@ -4,7 +4,7 @@ tool = require('./tool.js');
 let allMsg = null, webPage = 1;
 
 //  判断是http协议还是https协议
-async function fetchPage(url){
+function fetchPage(url){
     const func = url.split("://")[0];
     if(func == 'http'){
         // 采用http模块向服务器发送一次get请求
@@ -19,7 +19,7 @@ async function fetchPage(url){
     }
 }
 //  爬虫主函数
-async function startRequest (url, res){
+function startRequest (url, res){
     let html = '';  // 用于储存请求的html整个内容
     res.setEncoding('utf-8');   // 防止中文乱码
     res.on('data' , function(data){
@@ -53,7 +53,6 @@ async function startRequest (url, res){
          imgDir = imgdir + currdir + '/', 
          txt = currdir + '.txt';
     let imgNum = 0;
-    console.log(txt)
 
     tool.dir(txtdir)
     tool.dir(imgdir)
