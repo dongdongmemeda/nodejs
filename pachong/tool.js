@@ -20,9 +20,6 @@ function fetchPage(url, func){
 function saveTxt(allMsg, txtdir, txt){
     //  文件目录和地址
     const file = txtdir + txt
-    if (fs.existsSync(file)) {
-        allMsg = fs.readFileSync(file, 'utf-8').toString() + allMsg
-    }
     const writerStream = fs.createWriteStream(file)
     writerStream.write(allMsg , 'UTF8')
     writerStream.end()
