@@ -12,7 +12,7 @@ function fetchPage(url, func){
     }else if(web == 'https'){
         // 采用https模块向服务器发送一次get请求
         https.get(url , function(res){
-            func(res)
+            func(url, res)
         })
     }
 }

@@ -5,7 +5,7 @@ let allMsg = '', webPage = 1
 const url = ''
 tool.fetchPage(url, func)
 //  爬虫主函数
-function func (url, res){
+function func (addr, res){
     const $ = cheerio.load(html),  // 采用cheerio 模块解析html
     page = $('li.l_reply_num span.red').eq(1).text().trim(),
     tiebaName = $('.card_title_fname').attr('title'),
@@ -42,7 +42,7 @@ function func (url, res){
       
       //  程序自动翻页
       webPage ++
-      const nextUrl = url.split('?pn=')[0] + '?pn=' + webPage
+      const nextUrl = addr.split('?pn=')[0] + '?pn=' + webPage
       if (webPage <= page) {
         tool.fetchPage(nextUrl, func)
       }

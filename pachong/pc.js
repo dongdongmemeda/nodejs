@@ -5,7 +5,7 @@ let allMsg = '', tiebaPage = 1, tiebaMsg = '', onlyPage = 1, onlyMsg = ''
 const into = 'http://tieba.baidu.com/f?kw=%E7%94%B5%E5%AD%90%E7%A7%91%E6%8A%80%E5%A4%A7%E5%AD%A6&fr=home'
 tool.fetchPage(into, firstPage)
 //  爬虫主函数
-function firstPage (u, res){
+function firstPage(addr, res){
     let html = ''  // 用于储存请求的html整个内容
     res.setEncoding('utf-8')   // 防止中文乱码
     res.on('data' , function(data){
@@ -42,7 +42,7 @@ function firstPage (u, res){
     })
 }
 //  单独帖子的爬虫
-function tieba (url, res){
+function tieba (addr, res){
     let html = ''  // 用于储存请求的html整个内容
     res.setEncoding('utf-8')   // 防止中文乱码
     res.on('data' , function(data){
@@ -83,7 +83,7 @@ function tieba (url, res){
           
           //  程序自动翻页
           tiebaPage ++
-          const nextUrl = url.split('?pn=')[0] + '?pn=' + tiebaPage
+          const nextUrl = addr.split('?pn=')[0] + '?pn=' + tiebaPage
           if (tiebaPage <= page) {
             tool.fetchPage(nextUrl, tieba)
           }
@@ -92,7 +92,7 @@ function tieba (url, res){
     })
 }
 //  只看楼主的爬虫
-function only (url, res){
+function only (addr, res){
     let html = ''  // 用于储存请求的html整个内容
     res.setEncoding('utf-8')   // 防止中文乱码
     res.on('data' , function(data){
@@ -134,7 +134,7 @@ function only (url, res){
         
           //  程序自动翻页
           onlyPage ++
-          const nextUrl = url.split('?see_lz=1&pn=')[0] + '?see_lz=1&pn=' + onlyPage
+          const nextUrl = addr.split('?see_lz=1&pn=')[0] + '?see_lz=1&pn=' + onlyPage
           if (onlyPage <= page) {
               tool.fetchPage(nextUrl, only)
           }
