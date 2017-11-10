@@ -78,7 +78,7 @@ function tieba (addr, res){
         tool.dir(imgdir)
         tool.dir(txtDir)
         tool.dir(imgDir)
-        tool.saveTxt(allMsg, txtDir, txt)
+        tool.saveTxt(tiebaMsg, txtDir, txt)
         tool.saveImage( $, imgDir, imgNum)
           
           //  程序自动翻页
@@ -129,7 +129,7 @@ function only (addr, res){
         tool.dir(imgdir)
         tool.dir(txtDir)
         tool.dir(imgDir)
-        tool.saveTxt(allMsg, txtDir, txt)
+        tool.saveTxt(onlyMsg, txtDir, txt)
         tool.saveImage( $, imgDir, imgNum)
         
           //  程序自动翻页
