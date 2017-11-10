@@ -68,17 +68,17 @@ function tieba (addr, res){
             tiebaMsg = tiebaMsg + '\r\n' +  msg
             txtNum ++
         }
-        const data = './data/', img = './image/', txtdir = './data/all/' ,
-            currdir = tool.currName(tieziName),
-             imgDir = img + currdir + '/', 
-             txt = currdir + '.txt'
+        const data = './data/', img = './image/', imgdir = img + tool.currName(tiebaName) + '/',
+                txtDir = data + tool.currName(tiebaName) + '/', imgDir = imgdir + tool.currName(tieziName) + '/',
+                txt = tool.currName(tieziName) + '.txt'
         let imgNum = 0
-    
+
         tool.dir(data)
         tool.dir(img)
-        tool.dir(txtdir)
+        tool.dir(imgdir)
+        tool.dir(txtDir)
         tool.dir(imgDir)
-        tool.saveTxt(tiebaMsg, txtdir, txt)
+        tool.saveTxt(allMsg, txtDir, txt)
         tool.saveImage( $, imgDir, imgNum)
           
           //  程序自动翻页
@@ -119,17 +119,17 @@ function only (addr, res){
             onlyMsg = onlyMsg + '\r\n' +  msg
             txtNum ++
         }
-        const data = './data/', img = './image/', txtdir = './data/all/' ,
-            currdir = tool.currName(tieziName),
-            imgDir = img + currdir + '/', 
-            txt = currdir + '.txt'
+        const data = './data/', img = './image/', imgdir = img + tool.currName(tiebaName) + '/',
+                txtDir = data + tool.currName(tiebaName) + '/', imgDir = imgdir + tool.currName(tieziName) + '/',
+                txt = tool.currName(tieziName) + '.txt'
         let imgNum = 0
-    
+
         tool.dir(data)
         tool.dir(img)
-        tool.dir(txtdir)
+        tool.dir(imgdir)
+        tool.dir(txtDir)
         tool.dir(imgDir)
-        tool.saveTxt(onlyMsg, txtdir, txt)
+        tool.saveTxt(allMsg, txtDir, txt)
         tool.saveImage( $, imgDir, imgNum)
         
           //  程序自动翻页

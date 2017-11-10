@@ -61,9 +61,13 @@ function dir(path){
 }
 
 function currName(name){
-    return name.replace(/\//g, 'i').replace(/\\/g, 'i').replace(/:/g, 'i')
-    .replace(/\*/g, 'i').replace(/\?/g, 'i').replace(/</g, 'i').replace(/>/g, 'i')
-    .replace(/"/g, 'i').replace(/\|/g, 'i')
+    if(typeof name != 'undefined'){
+        return name.replace(/\//g, 'i').replace(/\\/g, 'i').replace(/:/g, 'i')
+        .replace(/\*/g, 'i').replace(/\?/g, 'i').replace(/</g, 'i').replace(/>/g, 'i')
+        .replace(/"/g, 'i').replace(/\|/g, 'i')
+    }else{
+        return 'undefined'
+    }
 }
 
 exports.fetchPage = fetchPage
