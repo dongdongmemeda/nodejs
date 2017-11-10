@@ -44,6 +44,13 @@ function dir(path){
     }
 }
 
+function currName(name){
+    return name.replace(/\//g, 'i').replace(/\\/g, 'i').replace(/:/g, 'i')
+    .replace(/\*/g, 'i').replace(/\?/g, 'i').replace(/</g, 'i').replace(/>/g, 'i')
+    .replace(/"/g, 'i').replace(/\|/g, 'i')
+}
+
 exports.saveTxt = saveTxt
 exports.saveImage = saveImage
 exports.dir = dir
+exports.currName = currName

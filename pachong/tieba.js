@@ -1,7 +1,7 @@
 //  nodejs爬虫 帖子全部内容 程序，蔡东-UESTC-2017-5-19
 const https = require('https'), http = require('http'), cheerio = require('cheerio'),
 tool = require('./tool.js');
-let allMsg = null, webPage = 1;
+let allMsg = null, webPage = 1, isFirst = true;
 
 //  判断是http协议还是https协议
 function fetchPage(url){
@@ -20,6 +20,12 @@ function fetchPage(url){
 }
 //  爬虫主函数
 function startRequest (url, res){
+    if(isFirst){
+        isFirst = false
+        if(url.split('?pn=').length == 2){
+            webPage = webPage.split('?pn=')[1]
+        }
+    }
     let html = '';  // 用于储存请求的html整个内容
     res.setEncoding('utf-8');   // 防止中文乱码
     res.on('data' , function(data){
@@ -29,9 +35,11 @@ function startRequest (url, res){
     res.on('end' , function(){
         const $ = cheerio.load(html),  // 采用cheerio 模块解析html
         page = $('li.l_reply_num span.red').eq(1).text().trim(),
-        tiebaName = $('div.card_title  a.card_title_fname').text().trim(),
-        author =  $('div.louzhubiaoshi_wrap div.louzhubiaoshi').eq(0).attr('author'),
+        tiebaName = $('.card_title_fname').attr('title'),
+        author =  $('.louzhubiaoshi').attr('author'),
         t = $('.core_title_txt').text().trim().split("回复：");
+        console.log('author: ', author)
+        console.log('tiebaName', tiebaName)
         let tieziName = '';
         if(t.length == 1){
             tieziName = t[0] + '  ' + author + '  ' + tiebaName;
@@ -47,15 +55,15 @@ function startRequest (url, res){
         txtNum ++;
     }
 
-    const txtdir = './data/all/' , imgdir = './image/'+tieziName+'/',
-        currdir = tieziName.replace(/\//g, 'i').replace(/\\/g, 'i').replace(/:/g, 'i').replace(/\*/g, 'i')
-         .replace(/\?/g, 'i').replace(/</g, 'i').replace(/>/g, 'i').replace(/"/g, 'i').replace(/\|/g, 'i'),
-         imgDir = imgdir + currdir + '/', 
+    const data = './data/', img = './image/', txtdir = './data/all/' ,
+        currdir = tool.currName(tieziName),
+         imgDir = img + currdir + '/', 
          txt = currdir + '.txt';
     let imgNum = 0;
 
+    tool.dir(data)
+    tool.dir(img)
     tool.dir(txtdir)
-    tool.dir(imgdir)
     tool.dir(imgDir)
     
     tool.saveTxt(allMsg, txtdir, txt);

@@ -1,7 +1,7 @@
 //  nodejs爬虫 帖子只看楼主内容 程序，蔡东-UESTC-2017-5-19
 const https = require('https'), http = require('http'), cheerio = require('cheerio'), fs = require('fs'),
 tool = require('./tool.js');
-let allMsg = null, webPage = 1;
+let allMsg = null, webPage = 1, isFirst = true;
 
 //  判断是http协议还是https协议
 function fetchPage(url){
@@ -9,17 +9,23 @@ function fetchPage(url){
     if(func == 'http'){
         // 采用http模块向服务器发送一次get请求
         http.get(url , function(res){
-            startRequest(url,res);
+            startRequest(url, res);
         });
     }else if(func == 'https'){
         // 采用https模块向服务器发送一次get请求
         https.get(url , function(res){
-            startRequest(url,res);
+            startRequest(url, res);
         });
     }
 }
 //  爬虫主函数
-function startRequest(url,res){
+function startRequest (url, res){
+    if(isFirst){
+        isFirst = false
+        if(url.split('?pn=').length == 2){
+            webPage = webPage.split('?pn=')[1]
+        }
+    }
     let html = '';  // 用于储存请求的html整个内容
     res.setEncoding('utf-8');   // 防止中文乱码
     res.on('data' , function(data){
@@ -30,7 +36,7 @@ function startRequest(url,res){
         const $ = cheerio.load(html),  // 采用cheerio 模块解析html
         page = $('li.l_reply_num span.red').eq(1).text().trim(),
         tiebaName = $('div.card_title  a.card_title_fname').text().trim(),
-        author =  $('div.louzhubiaoshi_wrap div.louzhubiaoshi').eq(0).attr('author'),
+        author =  $('.louzhubiaoshi.j_louzhubiaoshi').eq(0).attr('author'),
         t = $('.core_title_txt').text().trim().split("回复：");
         let tieziName = '';
         if(t.length == 1){
@@ -48,15 +54,15 @@ function startRequest(url,res){
         txtNum ++;
     }
     
-    const txtdir = './data/only/' , imgdir = './image/'+tieziName+'/',
-        currdir = tieziName.replace(/\//g, 'i').replace(/\\/g, 'i').replace(/:/g, 'i').replace(/\*/g, 'i')
-        .replace(/\?/g, 'i').replace(/</g, 'i').replace(/>/g, 'i').replace(/"/g, 'i').replace(/\|/g, 'i'),
-        imgDir = imgdir + currdir + '/', 
+    const data = './data/', img = './image/', txtdir = './data/all/' ,
+        currdir = tool.currName(tieziName),
+        imgDir = img + currdir + '/', 
         txt = currdir + '.txt';
     let imgNum = 0;
 
+    tool.dir(data)
+    tool.dir(img)
     tool.dir(txtdir)
-    tool.dir(imgdir)
     tool.dir(imgDir)
 
     tool.saveTxt(allMsg, txtdir, txt);
