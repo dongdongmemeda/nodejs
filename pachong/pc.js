@@ -3,7 +3,7 @@ const cheerio = require('cheerio'), tool = require('./tool.js')
 let allMsg = '', tiebaPage = 1, tiebaMsg = '', onlyPage = 1, onlyMsg = ''
 const data = './data/', img = './image/'
  // 爬虫的目标地址
-const into = 'http://tieba.baidu.com/f?kw=%E7%94%B5%E5%AD%90%E7%A7%91%E6%8A%80%E5%A4%A7%E5%AD%A6&fr=home'
+const into = 'https://tieba.baidu.com/f?kw=%E6%89%92%E7%9A%AE&fr=home&fp=0&ie=utf-8'
 tool.fetchPage(into, firstPage)
 //  爬虫主函数
 function firstPage(addr, res){
@@ -57,30 +57,31 @@ function tieba (addr, res){
         }else{
             tieziName = t[1] + '  ' + author + '  ' + tiebaName
         }
-        tiebaMsg = '标题：' + tieziName
-        let sayContent = $('div.j_d_post_content').text().trim().split("            "), txtNum = 1  // 12空格
+        allMsg = '标题：' + tieziName
+        let sayContent = $('div.j_d_post_content').text().trim().split("            "), txtNum = 1+30*(webPage-1)  // 12空格
         for(let i=1;i<sayContent.length+1;i++){
             const sayPeople = $('li.d_name a.j_user_card ').eq(i-1).text().trim(), 
                 msg = txtNum+'楼    '+sayPeople+'\r\n    '+sayContent[i-1]
-            tiebaMsg = tiebaMsg + '\r\n' +  msg
+            allMsg = allMsg + '\r\n' +  msg
             txtNum ++
         }
-        const imgdir = img + tool.currName(tiebaName) + '/', txtDir = data + tool.currName(tiebaName) + '/',
-            imgDir = imgdir + tool.currName(tieziName) + '/', txt = tool.currName(tieziName) + '.txt', imgNum = Math.random().toString(16).substr(2,8)
-
+        const data = './data/', img = './image/', imgdir = img + tool.currName(tiebaName) + '/',
+              txtDir = data + tool.currName(tiebaName) + '/', imgDir = imgdir + tool.currName(tieziName) + '/',
+              txt = tool.currName(tieziName) + '.txt'
+    
         tool.dir(data)
         tool.dir(img)
         tool.dir(imgdir)
         tool.dir(txtDir)
         tool.dir(imgDir)
-        tool.saveTxt(tiebaMsg, txtDir, txt)
-        tool.saveImage( $, imgDir, imgNum)
+        tool.saveTxt(allMsg, txtDir, txt)
+        tool.saveImage( $, imgDir)
           
           //  程序自动翻页
-          tiebaPage ++
-          const nextUrl = addr.split('?pn=')[0] + '?pn=' + tiebaPage
-          if (tiebaPage <= page) {
-            tool.fetchPage(nextUrl, tieba)
+          webPage ++
+          const nextUrl = addr.split('?pn=')[0] + '?pn=' + webPage
+          if (webPage <= page) {
+            tool.fetchPage(nextUrl, func)
           }
     }).on('error', function() {
         console.log('error')
@@ -105,31 +106,31 @@ function only (addr, res){
         }else{
             tieziName = t[1] + '  ' + author + '  ' + tiebaName
         }
-        onlyMsg = '标题：'+tieziName
-        let sayContent = $('div.j_d_post_content').text().trim().split("            "), txtNum = 1  // 12空格
+        allMsg = '标题：'+tieziName
+        let sayContent = $('div.j_d_post_content').text().trim().split("            ")    // 12空格
         for(let i=sayContent.length-1;i>=0;i--){
             const sayPeople = $('li.d_name a.j_user_card ').eq(i).text().trim(),
                 msg = '    '+sayContent[i-1]
             console.log(msg)
-            onlyMsg = onlyMsg + '\r\n' +  msg
-            txtNum ++
-        }
-        const imgdir = img + tool.currName(tiebaName) + '/', txtDir = data + tool.currName(tiebaName) + '/',
-            imgDir = imgdir + tool.currName(tieziName) + '/', txt = tool.currName(tieziName) + '.txt', imgNum = Math.random().toString(16).substr(2,8)
-
+            allMsg = allMsg + '\r\n' +  msg
+        }  
+        const data = './data/', img = './image/', imgdir = img + tool.currName(tiebaName) + '/',
+            txtDir = data + tool.currName(tiebaName) + '/', imgDir = imgdir + tool.currName(tieziName) + '/',
+            txt = '只看楼主_' + tool.currName(tieziName) + '.txt'
+    
         tool.dir(data)
         tool.dir(img)
         tool.dir(imgdir)
         tool.dir(txtDir)
         tool.dir(imgDir)
-        tool.saveTxt(onlyMsg, txtDir, txt)
-        tool.saveImage( $, imgDir, imgNum)
+        tool.saveTxt(allMsg, txtDir, txt)
+        tool.saveImage( $, imgDir)
         
           //  程序自动翻页
-          onlyPage ++
-          const nextUrl = addr.split('?see_lz=1&pn=')[0] + '?see_lz=1&pn=' + onlyPage
-          if (onlyPage <= page) {
-              tool.fetchPage(nextUrl, only)
+          webPage ++
+          const nextUrl = addr.split('?see_lz=1&pn=')[0] + '?see_lz=1&pn=' + webPage
+          if (webPage <= page) {
+              tool.fetchPage(nextUrl, func)
           }
     }).on('error', function() {
         console.log('error')

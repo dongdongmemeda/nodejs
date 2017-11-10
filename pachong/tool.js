@@ -20,30 +20,26 @@ function fetchPage(url, func){
 function saveTxt(allMsg, txtdir, txt){
     //  文件目录和地址
     const file = txtdir + txt
-    fs.access( file ,function(err){
-        if(err){
-            if (err.code == 'EEXIST') {
-                const newMsg = fs.readFileSync(file).toString()
-                allMsg = newMsg + allMsg
-            }
-        }
-        const writerStream = fs.createWriteStream(file)
-        writerStream.write(allMsg , 'UTF8')
-        writerStream.end()
-        writerStream.on('finish' , function(){
-    console.log('------------------------------文件写入"'+txt+'完成------------------------------')
-        })
-        writerStream.on('error' , function(error){
-            console.log(error.stack)
-        })
+    if (fs.existsSync(file)) {
+        allMsg = fs.readFileSync(file, 'utf-8').toString() + allMsg
+    }
+    const writerStream = fs.createWriteStream(file)
+    writerStream.write(allMsg , 'UTF8')
+    writerStream.end()
+    writerStream.on('finish' , function(){
+console.log('---------------文件写入"'+txt+'完成---------------')
     })
+    writerStream.on('error' , function(error){
+        console.log(error.stack)
+    })
+    
 }
 //  图片保存函数
-function saveImage($ , imgDir, imgNum){
+function saveImage($ , imgDir){
     //  获取图片
     $('img.BDE_Image').each(function () {
-        const img_file = imgDir + imgNum +'.jpg',
-            img_src = $(this).attr('src') //获取图片的url
+        const imgNum = Math.random().toString(16).substr(2,8),
+        img_file = imgDir + imgNum +'.jpg',img_src = $(this).attr('src') //获取图片的url
         request.head(img_src,function(err,res,body){
             if(err) console.log("error:"+err)
         })
