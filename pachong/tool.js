@@ -47,10 +47,18 @@ function saveImage($ , imgDir, imgNum){
         request.head(img_src,function(err,res,body){
             if(err) console.log("error:"+err)
         })
-        fs.createWriteStream(img_file)
-        request(img_src).pipe(fs.createWriteStream(img_file) )
-        imgNum ++
-        console.log("---------------图片[" + imgNum + "]保存成功---------------")
+        const writeStream = fs.createWriteStream(img_file), readStream = request(img_src)
+        readStream.on('error', function(err) {
+            console.log(err)
+        })
+        readStream.pipe(writeStream)
+        readStream.on('end', function(response) {
+            console.log("---------------图片[" + imgNum + "]保存成功---------------")
+            writeStream.end()
+        })
+        writeStream.on("finish", function() {
+            console.log("ok")
+        })
     })
 }
 
@@ -61,7 +69,7 @@ function dir(path){
 }
 
 function currName(name){
-    if(typeof name != 'undefined'){
+    if( typeof name != 'undefined'){
         return name.replace(/\//g, 'i').replace(/\\/g, 'i').replace(/:/g, 'i')
         .replace(/\*/g, 'i').replace(/\?/g, 'i').replace(/</g, 'i').replace(/>/g, 'i')
         .replace(/"/g, 'i').replace(/\|/g, 'i')

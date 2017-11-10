@@ -8,7 +8,7 @@ tool.fetchPage(url, func)
 function func (addr, res){
     const $ = cheerio.load(html),  // 采用cheerio 模块解析html
     page = $('li.l_reply_num span.red').eq(1).text().trim(),
-    tiebaName = $('.card_title_fname').attr('title'),
+    tiebaName = $('.card_title_fname').text().trim() || 'undefined',
     author =  $('.louzhubiaoshi').attr('author'),
     t = $('.core_title_txt').text().trim().split("回复：")
     let tieziName = ''
@@ -27,8 +27,7 @@ function func (addr, res){
     }
     const data = './data/', img = './image/', imgdir = img + tool.currName(tiebaName) + '/',
           txtDir = data + tool.currName(tiebaName) + '/', imgDir = imgdir + tool.currName(tieziName) + '/',
-          txt = tool.currName(tieziName) + '.txt'
-    let imgNum = 0
+          txt = tool.currName(tieziName) + '.txt', imgNum = Math.random().toString(16).substr(2,8)
 
     tool.dir(data)
     tool.dir(img)

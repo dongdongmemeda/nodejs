@@ -1,6 +1,7 @@
 //  nodejs爬虫 贴吧首页 程序，蔡东-UESTC-2017-5-19
 const cheerio = require('cheerio'), tool = require('./tool.js')
 let allMsg = '', tiebaPage = 1, tiebaMsg = '', onlyPage = 1, onlyMsg = ''
+const data = './data/', img = './image/'
  // 爬虫的目标地址
 const into = 'http://tieba.baidu.com/f?kw=%E7%94%B5%E5%AD%90%E7%A7%91%E6%8A%80%E5%A4%A7%E5%AD%A6&fr=home'
 tool.fetchPage(into, firstPage)
@@ -20,23 +21,19 @@ function firstPage(addr, res){
             author.push($('span.tb_icon_author').eq(i).attr('title'))
         }
         for(let i=author.length-1;i>=0;i--){
-            let url = $('a.j_th_tit').eq(i).attr('href')
-            if($('a.j_th_tit').eq(i).attr('href').split('://').length == 1){
-                url = 'http://tieba.baidu.com' + $('a.j_th_tit').eq(i).attr('href')
-            }
+            let url = addr.split('://')[0] + '://tieba.baidu.com' + $('a.j_th_tit').eq(i).attr('href')
             if(url.split('?').length == 2){
                 url = url.split('?')[0]
             }
             msg = (i+1)+'.'+author[i].trim() + '  发表了  ' + $('a.j_th_tit ').eq(i).text().trim() + '  链接：'  +  url
-            allMsg = msg + '\r\n' + allMsg 
+            allMsg = msg + '\r\n' + allMsg
             tool.fetchPage(url, tieba)
         }
-        const txtdir = './data/', imgdir = './image/',
-            txt = tool.currName($('a.card_title_fname ').text().trim()) + '.txt'
+        const txt = tool.currName($('a.card_title_fname ').text().trim()) + '.txt'
     
-        tool.dir(txtdir)
-        tool.dir(imgdir)
-        tool.saveTxt(allMsg, txtdir, txt)
+        tool.dir(data)
+        tool.dir(img)
+        tool.saveTxt(allMsg, data, txt)
     }).on('error', function() {
         console.log('error')
     })
@@ -51,7 +48,7 @@ function tieba (addr, res){
     res.on('end' , function(){
         const $ = cheerio.load(html),  // 采用cheerio 模块解析html
         page = $('li.l_reply_num span.red').eq(1).text().trim(),
-        tiebaName = $('.card_title_fname').attr('title'),
+        tiebaName = $('.card_title_fname').text().trim() || 'undefined',
         author =  $('.louzhubiaoshi').attr('author'),
         t = $('.core_title_txt').text().trim().split("回复：")
         let tieziName = ''
@@ -68,10 +65,8 @@ function tieba (addr, res){
             tiebaMsg = tiebaMsg + '\r\n' +  msg
             txtNum ++
         }
-        const data = './data/', img = './image/', imgdir = img + tool.currName(tiebaName) + '/',
-                txtDir = data + tool.currName(tiebaName) + '/', imgDir = imgdir + tool.currName(tieziName) + '/',
-                txt = tool.currName(tieziName) + '.txt'
-        let imgNum = 0
+        const imgdir = img + tool.currName(tiebaName) + '/', txtDir = data + tool.currName(tiebaName) + '/',
+            imgDir = imgdir + tool.currName(tieziName) + '/', txt = tool.currName(tieziName) + '.txt', imgNum = Math.random().toString(16).substr(2,8)
 
         tool.dir(data)
         tool.dir(img)
@@ -101,8 +96,8 @@ function only (addr, res){
     res.on('end' , function(){
         const $ = cheerio.load(html),  // 采用cheerio 模块解析html
         page = $('li.l_reply_num span.red').eq(1).text().trim(),
-        tiebaName = $('div.card_title  a.card_title_fname').text().trim(),
-        author =  $('.louzhubiaoshi.j_louzhubiaoshi').eq(0).attr('author'),
+        tiebaName = $('.card_title_fname').text().trim() || 'undefined',
+        author =  $('.louzhubiaoshi').eq(0).attr('author'),
         t = $('.core_title_txt').text().trim().split("回复：")
         let tieziName = ''
         if(t.length == 1){
@@ -119,10 +114,8 @@ function only (addr, res){
             onlyMsg = onlyMsg + '\r\n' +  msg
             txtNum ++
         }
-        const data = './data/', img = './image/', imgdir = img + tool.currName(tiebaName) + '/',
-                txtDir = data + tool.currName(tiebaName) + '/', imgDir = imgdir + tool.currName(tieziName) + '/',
-                txt = tool.currName(tieziName) + '.txt'
-        let imgNum = 0
+        const imgdir = img + tool.currName(tiebaName) + '/', txtDir = data + tool.currName(tiebaName) + '/',
+            imgDir = imgdir + tool.currName(tieziName) + '/', txt = tool.currName(tieziName) + '.txt', imgNum = Math.random().toString(16).substr(2,8)
 
         tool.dir(data)
         tool.dir(img)
