@@ -18,22 +18,22 @@ function only (addr, res){
         t = $('.core_title_txt').text().trim().split("回复：")
         let tieziName = ''
         if(t.length == 1){
-            tieziName = t[0] + '  ' + tiebaName
+            tieziName = `${t[0]}  ${tiebaName}`
         }else{
-            tieziName = t[1] + '  ' + tiebaName
+            tieziName = `${t[1]}  ${tiebaName}`
         }
         if(onlyPage == 1){
-            onlyMsg = '标题：' + tool.currName(tieziName) + '  链接：' + addr.split('?')[0]
+            onlyMsg = `标题：${tool.currName(tieziName)}  链接：${addr.split('?')[0]}\r\n`
         }
         let sayContent = $('div.j_d_post_content').text().trim().split("            ")    // 12空格
         for(let i=sayContent.length-1;i>=0;i--){
-            const sayPeople = $('li.d_name a.j_user_card ').eq(i).text().trim(), msg = '    '+sayContent[i-1]
+            const sayPeople = $('li.d_name a.j_user_card ').eq(i).text().trim(), msg = `    ${sayContent[i-1]}`
             console.log(msg)
-            onlyMsg = onlyMsg + '\r\n' +  msg
+            onlyMsg = `${onlyMsg}\r\n${msg}`
         }  
-        const data = './data/', img = './image/', imgdir = img + tool.currName(tiebaName) + '/',
-            txtDir = data + tool.currName(tiebaName) + '/', imgDir = imgdir + tool.currName(tieziName) + '/',
-            txt = '只看楼主_' + tool.currName(tieziName) + '.txt'
+        const data = './data/', img = './image/', imgdir = `${img}${tool.currName(tiebaName)}/`,
+            txtDir = `${data}${tool.currName(tiebaName)}/`, imgDir = `${imgdir}${tool.currName(tieziName)}/`,
+            txt = `只看楼主_${tool.currName(tieziName)}.txt`
     
         tool.dir(data)
         tool.dir(img)
@@ -45,11 +45,9 @@ function only (addr, res){
         
           //  程序自动翻页
           onlyPage ++
-          const nextUrl = addr.split('?see_lz=1&pn=')[0] + '?see_lz=1&pn=' + onlyPage
+          const nextUrl = `${addr.split('?see_lz=1&pn=')[0]}?see_lz=1&pn=${onlyPage}`
           if (onlyPage <= page) {
                 tool.fetchPage(nextUrl, only)
-          }else{
-                onlyPage = 1
           }
     }).on('error', function() {
         console.log('error')

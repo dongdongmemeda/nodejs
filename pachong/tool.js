@@ -24,7 +24,7 @@ function saveTxt(allMsg, txtdir, txt){
     writerStream.write(allMsg , 'UTF8')
     writerStream.end()
     writerStream.on('finish' , function(){
-console.log('---------------文件写入"'+txt+'完成---------------')
+console.log(`---------------文件写入${txt}完成---------------`)
     })
     writerStream.on('error' , function(error){
         console.log(error.stack)
@@ -36,9 +36,9 @@ function saveImage($ , imgDir){
     //  获取图片
     $('img.BDE_Image').each(function () {
         const imgNum = Math.random().toString(16).substr(2,8),
-        img_file = imgDir + imgNum +'.jpg',img_src = $(this).attr('src') //获取图片的url
+        img_file = `${imgDir}${imgNum}.jpg`, img_src = $(this).attr('src') //获取图片的url
         request.head(img_src,function(err,res,body){
-            if(err) console.log("error:"+err)
+            if(err) console.log("error:", err)
         })
         const writeStream = fs.createWriteStream(img_file), readStream = request(img_src)
         readStream.on('error', function(err) {
@@ -46,7 +46,7 @@ function saveImage($ , imgDir){
         })
         readStream.pipe(writeStream)
         readStream.on('end', function(response) {
-            console.log("---------------图片[" + imgNum + "]保存成功---------------")
+            console.log(`---------------图片[${imgNum}]保存成功---------------`)
             writeStream.end()
         })
         writeStream.on("finish", function() {
@@ -54,13 +54,13 @@ function saveImage($ , imgDir){
         })
     })
 }
-
+//  文件夹不存在，则创建
 function dir(path){
     if (!fs.existsSync(path)) {
         fs.mkdirSync(path)
     }
 }
-
+//  由于文件夹和文件有命名规定，所以需要更改
 function currName(name){
     if( typeof name != 'undefined'){
         return name.replace(/\//g, 'i').replace(/\\/g, 'i').replace(/:/g, 'i')
@@ -70,7 +70,7 @@ function currName(name){
         return 'undefined'
     }
 }
-
+//  导出模块
 exports.fetchPage = fetchPage
 exports.saveTxt = saveTxt
 exports.saveImage = saveImage
