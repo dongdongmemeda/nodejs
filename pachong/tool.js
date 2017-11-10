@@ -1,5 +1,21 @@
 //  nodejs爬虫 贴吧 程序，蔡东-UESTC-2017-11-9
-const fs = require('fs'), request = require('request')
+const fs = require('fs'), request = require('request'), https = require('https'), http = require('http')
+
+//  判断是http协议还是https协议
+function fetchPage(url, func){
+    const web = url.split("://")[0]
+    if(web == 'http'){
+        // 采用http模块向服务器发送一次get请求
+        http.get(url , function(res){
+            func(url, res)
+        })
+    }else if(web == 'https'){
+        // 采用https模块向服务器发送一次get请求
+        https.get(url , function(res){
+            func(res)
+        })
+    }
+}
 //  文件保存函数
 function saveTxt(allMsg, txtdir, txt){
     //  文件目录和地址
@@ -50,6 +66,7 @@ function currName(name){
     .replace(/"/g, 'i').replace(/\|/g, 'i')
 }
 
+exports.fetchPage = fetchPage
 exports.saveTxt = saveTxt
 exports.saveImage = saveImage
 exports.dir = dir
