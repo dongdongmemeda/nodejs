@@ -34,7 +34,7 @@ function startRequest(res){
         tiebaName = $('a.card_title_fname ').text().trim(),
         au =  $('span.tb_icon_author')
         let author =  []
-        for(var i=0;i<au.length;i++){
+        for(let i=0;i<au.length;i++){
             author.push($('span.tb_icon_author').eq(i).attr('title'))
         }
         for(let i=author.length-1;i>=0;i--){

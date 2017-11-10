@@ -1,4 +1,4 @@
-//  nodejs爬虫 贴吧首页 程序，蔡东-UESTC-2017-11-9
+//  nodejs爬虫 贴吧 程序，蔡东-UESTC-2017-11-9
 const fs = require('fs'), request = require('request')
 //  文件保存函数
 function saveTxt(allMsg, txtdir, txt){
