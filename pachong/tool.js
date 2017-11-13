@@ -67,10 +67,10 @@ tool.dir = function(path){
 //  由于文件夹和文件有命名规定，所以需要更改
 tool.currName = function(name){
     if( typeof name != 'undefined'){
-        //  单个反斜杠在末尾
-        return name.replace(/\//g, 'i').replace(/\\/g, 'i').replace(/\:/g, 'i')
+        //  单个反斜杠在末尾匹配要报错，添加末尾字符i
+        return (`${name}i`).replace(/\//g, 'i').replace(/\\/g, 'i').replace(/\:/g, 'i')
         .replace(/\*/g, 'i').replace(/\?/g, 'i').replace(/\</g, 'i').replace(/\>/g, 'i')
-        .replace(/\"/g, 'i').replace(/\|/g, 'i') + 'i'
+        .replace(/\"/g, 'i').replace(/\|/g, 'i') 
     }else{
         return 'undefined'
     }
