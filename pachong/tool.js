@@ -45,6 +45,9 @@ function saveImage($ , imgDir){
             console.log(err)
         })
         readStream.pipe(writeStream)
+		readStream.on('error', function(err) {
+            console.log(err)
+        })
         readStream.on('end', function(response) {
             console.log(`---------------图片[${imgNum}]保存成功---------------`)
             writeStream.end()

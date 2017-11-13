@@ -15,13 +15,8 @@ function tieba (addr, res){
         const $ = cheerio.load(html),  // 采用cheerio 模块解析html
         page = $('li.l_reply_num span.red').eq(1).text().trim(),
         tiebaName = $('.card_title_fname').text().trim() || 'undefined',
-        t = $('.core_title_txt').text().trim().split("回复：")
-        let tieziName = ''
-        if(t.length == 1){
-            tieziName = `${t[0]}  ${tiebaName}`
-        }else{
-            tieziName = `${t[1]}  ${tiebaName}`
-        }
+        t = $('.core_title_txt').text().trim().split("回复："),
+        tieziName = `${t[t.length-1]}  ${tiebaName}`
         if(tiebaPage == 1){
             tiebaMsg = `标题：${tool.currName(tieziName)}  链接：${addr.split('?')[0]}\r\n`
         }
