@@ -1,8 +1,9 @@
 //  nodejs爬虫 贴吧 程序，蔡东-UESTC-2017-11-9
 const fs = require('fs'), request = require('request'), https = require('https'), http = require('http')
 
+const tool = {}
 //  判断是http协议还是https协议
-function fetchPage(url, func){
+tool.fetchPage= function(url, func){
     const web = url.split("://")[0]
     if(web == 'http'){
         // 采用http模块向服务器发送一次get请求
@@ -17,7 +18,7 @@ function fetchPage(url, func){
     }
 }
 //  文件保存函数
-function saveTxt(allMsg, txtdir, txt){
+tool.saveTxt = function(allMsg, txtdir, txt){
     //  文件目录和地址
     const file = txtdir + txt
     const writerStream = fs.createWriteStream(file)
@@ -32,7 +33,7 @@ console.log(`---------------文件写入${txt}完成---------------`)
     
 }
 //  图片保存函数
-function saveImage($ , imgDir){
+tool.saveImage = function($ , imgDir){
     //  获取图片
     $('img.BDE_Image').each(function () {
         const imgNum = Math.random().toString(16).substr(2,8),
@@ -45,7 +46,7 @@ function saveImage($ , imgDir){
             console.log(err)
         })
         readStream.pipe(writeStream)
-		readStream.on('error', function(err) {
+        readStream.on('error', function(err) {
             console.log(err)
         })
         readStream.on('end', function(response) {
@@ -58,13 +59,13 @@ function saveImage($ , imgDir){
     })
 }
 //  文件夹不存在，则创建
-function dir(path){
+tool.dir = function(path){
     if (!fs.existsSync(path)) {
         fs.mkdirSync(path)
     }
 }
 //  由于文件夹和文件有命名规定，所以需要更改
-function currName(name){
+tool.currName = function(name){
     if( typeof name != 'undefined'){
         return name.replace(/\//g, 'i').replace(/\\/g, 'i').replace(/:/g, 'i')
         .replace(/\*/g, 'i').replace(/\?/g, 'i').replace(/</g, 'i').replace(/>/g, 'i')
@@ -74,8 +75,4 @@ function currName(name){
     }
 }
 //  导出模块
-exports.fetchPage = fetchPage
-exports.saveTxt = saveTxt
-exports.saveImage = saveImage
-exports.dir = dir
-exports.currName = currName
+module.exports = tool
