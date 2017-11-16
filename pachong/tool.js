@@ -5,12 +5,12 @@ const tool = {}
 //  判断是http协议还是https协议
 tool.fetchPage= function(url, func){
     const web = url.split("://")[0]
-    if(web == 'http'){
+    if(web === 'http'){
         // 采用http模块向服务器发送一次get请求
         http.get(url , function(res){
             func(url, res)
         })
-    }else if(web == 'https'){
+    }else if(web === 'https'){
         // 采用https模块向服务器发送一次get请求
         https.get(url , function(res){
             func(url, res)
@@ -39,7 +39,7 @@ tool.saveImage = function($ , imgDir){
         const imgNum = Math.random().toString(16).substr(2,8),
         img_file = `${imgDir}${imgNum}.jpg`, img_src = $(this).attr('src') //获取图片的url
         request.head(img_src,function(err,res,body){
-            if(err) console.log("error:", err)
+            if(err) console.log(`error: ${err}`)
         })
         const writeStream = fs.createWriteStream(img_file), readStream = request(img_src)
         readStream.on('error', function(err) {
@@ -66,7 +66,7 @@ tool.dir = function(path){
 }
 //  由于文件夹和文件有命名规定，所以需要更改
 tool.currName = function(name){
-    if( typeof name != 'undefined'){
+    if( typeof name !== 'undefined'){
         return name.replace(/\//g, 'i').replace(/\\/g, 'i').replace(/\:/g, 'i')
         .replace(/\*/g, 'i').replace(/\?/g, 'i').replace(/\</g, 'i').replace(/\>/g, 'i')
         .replace(/\"/g, 'i').replace(/\|/g, 'i') 
