@@ -3,17 +3,17 @@ const fs = require('fs'), request = require('request'), https = require('https')
 
 const tool = {}
 //  判断是http协议还是https协议
-tool.fetchPage= function(url, func){
+tool.fetchPage = function(url, func, txtMsg, tiebaPage){
     const web = url.split("://")[0]
     if(web === 'http'){
         // 采用http模块向服务器发送一次get请求
         http.get(url , function(res){
-            func(url, res)
+            func(url, res, txtMsg, tiebaPage)
         })
     }else if(web === 'https'){
         // 采用https模块向服务器发送一次get请求
         https.get(url , function(res){
-            func(url, res)
+            func(url, res, txtMsg, tiebaPage)
         })
     }
 }
