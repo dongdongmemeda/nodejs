@@ -5,10 +5,11 @@
     createdOn: 2017/5/28
 
 ## 操作说明 
-
-    1.配置环境，安装node，官网下载 [node](https://nodejs.org/en/)
-    2.安装环境需要的npm包，打开cmd执行 npm install request && npm install cheerio
-    3.运行主程序 node pc.js
+#### 配置环境，安装node，官网下载 [node](https://nodejs.org/en/)
+    
+    1.安装环境需要的npm包，打开cmd执行
+        npm install request && npm install cheerio
+    2.运行主程序 node pc.js
 
 ## 文件说明
 
