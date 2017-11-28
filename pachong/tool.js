@@ -1,6 +1,5 @@
 //  nodejs爬虫 贴吧 程序，蔡东-UESTC-2017-11-9
 const fs = require('fs'), request = require('request'), https = require('https'), http = require('http')
-
 const tool = {}
 //  判断是http协议还是https协议
 tool.fetchPage = function(url, func, txtMsg, tiebaPage){
