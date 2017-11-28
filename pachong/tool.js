@@ -58,6 +58,31 @@ tool.saveImage = function($ , imgDir){
         })
     })
 }
+//  图片保存用户头像
+function saveHead($ , imgDir){
+    $('.p_author_face img').each(function () {
+        const imgNum = $(this).attr('username'), img_file = `${imgDir}${imgNum}.jpg`, 
+              img_src = $(this).attr('data-tb-lazyload') || $(this).attr('src')
+        request.head(img_src,function(err,res,body){
+            if(err) console.log("error:", err)
+        })
+        const writeStream = fs.createWriteStream(img_file), readStream = request(img_src)
+        readStream.on('error', function(err) {
+            console.log(err)
+        })
+        readStream.pipe(writeStream)
+        readStream.on('error', function(err) {
+            console.log(err)
+        })
+        readStream.on('end', function(response) {
+            console.log(`---------------头像[${imgNum}]保存成功---------------`)
+            writeStream.end()
+        })
+        writeStream.on("finish", function() {
+            console.log("ok")
+        })
+    })
+}
 //  文件夹不存在，则创建
 tool.dir = function(path){
     if (!fs.existsSync(path)) {

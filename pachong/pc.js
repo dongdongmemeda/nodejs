@@ -1,6 +1,5 @@
 //  nodejs爬虫 贴吧首页 程序，蔡东-UESTC-2017-5-19
-const cheerio = require('cheerio'), tool = require('./tool.js'), tieba = require('./tieba.js'),
-data = './data/', img = './image/'
+const cheerio = require('cheerio'), tool = require('./tool.js'), tieba = require('./tieba.js'), data = './data/'
  // 爬虫的目标地址
 const into = 'https://tieba.baidu.com/f?kw=%E6%89%92%E7%9A%AE&fr=home&fp=0&ie=utf-8'
 tool.fetchPage(into, firstPage, '', 1)
@@ -32,7 +31,6 @@ function firstPage(addr, res, txtMsg, tiebaPage){
         const txt = `${tool.currName(tiebaName)}.txt`
     
         tool.dir(data)
-        tool.dir(img)
         tool.saveTxt(allMsg, data, txt)
     }).on('error', function() {
         console.log('error')
