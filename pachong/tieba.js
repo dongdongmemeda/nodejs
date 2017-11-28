@@ -12,10 +12,9 @@ function tieba (addr, res, tiebaMsg, tiebaPage){
     })
     res.on('end' , function(){
         const $ = cheerio.load(html),  // 采用cheerio 模块解析html
-        page = $('.l_reply_num .red').eq(1).text().trim()
-        let at = $('#tb_nav .multi_forum_link').eq(1).text()|| 'undefined',
-        tiebaName = $('div.card_title a.card_title_fname').eq(0).text() || $('.plat_title_h3').eq(0).text() || at,
-        t = $('.core_title_wrap_bright .core_title_txt').eq(0).text().trim() || 'undefined'
+        page = $('.l_reply_num .red').eq(1).text().trim(),
+        tiebaName = $('div.card_title a.card_title_fname').eq(0).text() || $('.plat_title_h3').eq(0).text() || $('#tb_nav .multi_forum_link').eq(1).text()|| 'undefined'
+        let t = $('.core_title_wrap_bright .core_title_txt').eq(0).text().trim() || 'undefined', tieziName = null
         if(t !== undefined){
             let ti = t.split('回复：')
             tieziName =  ti[ti.length-1]
